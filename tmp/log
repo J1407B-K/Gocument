@@ -1,0 +1,54 @@
+2025-01-21 01:19:53	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 16:16:33	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 16:16:33	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:27	initialize mysql success
+2025-01-21 16:28:39	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 16:28:39	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:29	Initialize mysql success
+2025-01-21 16:28:39	[31mFATAL[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:51	redis ping faileddial tcp [::1]:6379: connect: connection refused
+2025-01-21 16:31:37	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 16:31:37	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:29	Initialize mysql success
+2025-01-21 16:31:37	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:57	Initialize redis success
+2025-01-21 17:27:28	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 17:27:28	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 17:27:28	[34mINFO[0m	/home/kq/GolandProjects/LsWinter/app/api/internal/initialize/Database.go:55	Initialize redis success
+2025-01-21 17:47:32	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 17:47:32	[31mFATAL[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:23	failed to connect mysqlError 1049 (42000): Unknown database 'Gocument'
+2025-01-21 17:48:56	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 17:48:56	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 17:48:56	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:55	Initialize redis success
+2025-01-21 17:49:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 17:49:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 17:49:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:55	Initialize redis success
+2025-01-21 17:49:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 17:49:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 17:49:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:55	Initialize redis success
+2025-01-21 19:36:29	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 19:36:29	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 19:36:29	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:55	Initialize redis success
+2025-01-21 19:37:08	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:20	redis query wrong
+2025-01-21 19:37:08	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:51	redis query failedredis: client is closed
+2025-01-21 19:37:08	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
+2025-01-21 19:37:08	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:185	redis set failedredis: client is closed
+2025-01-21 19:37:08	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:94	redis set failedredis: client is closed
+2025-01-21 19:37:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:98	user register success
+2025-01-21 19:39:16	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:20	redis query wrong
+2025-01-21 19:39:16	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:51	redis query failedredis: client is closed
+2025-01-21 19:39:16	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
+2025-01-21 19:39:16	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:185	redis set failedredis: client is closed
+2025-01-21 19:39:16	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:94	redis set failedredis: client is closed
+2025-01-21 19:39:16	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:98	user register success
+2025-01-21 19:39:18	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:20	redis query wrong
+2025-01-21 19:39:18	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:51	redis query failedredis: client is closed
+2025-01-21 19:39:18	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:185	redis set failedredis: client is closed
+2025-01-21 19:39:18	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:70	redis set failedredis: client is closed
+2025-01-21 19:39:18	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:73	user already exist
+2025-01-21 19:42:26	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 19:42:26	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 19:42:26	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 19:42:31	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:73	user already exist
+2025-01-21 19:42:36	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 19:42:39	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 19:42:40	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 19:42:43	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 19:44:11	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 19:44:15	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 19:44:17	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist

@@ -1,0 +1,16 @@
+ZapConfig:
+  Filename: "tmp/log"
+  MaxSize: 5
+  MaxAge: 400
+  MaxBackups: 1000
+
+DatabaseConfig:
+  MysqlConfig:
+    Username: "root"
+    Password: "123456"
+    Addr: "localhost:3306"
+    DB: "Gocument"
+  RedisConfig:
+    Addr: "localhost:6379"
+    Password: ""
+    DB: 0
