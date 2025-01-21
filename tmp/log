@@ -52,3 +52,34 @@
 2025-01-21 19:44:11	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
 2025-01-21 19:44:15	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
 2025-01-21 19:44:17	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 20:31:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:31:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:31:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:38:48	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:38:48	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:38:48	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:39:01	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:141	password compare failedcrypto/bcrypt: hashedSecret too short to be a bcrypted password
+2025-01-21 20:41:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:41:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:41:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:45:59	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:182	password compare failedcrypto/bcrypt: hashedSecret too short to be a bcrypted password
+2025-01-21 20:46:09	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:182	password compare failedcrypto/bcrypt: hashedSecret too short to be a bcrypted password
+2025-01-21 20:47:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:47:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:47:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:47:13	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:183	password compare failedcrypto/bcrypt: hashedSecret too short to be a bcrypted password
+2025-01-21 20:49:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:49:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:49:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:51:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:51:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:51:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:52:42	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-21 20:52:42	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-21 20:52:42	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-21 20:53:49	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 20:54:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:73	user already exist
+2025-01-21 20:54:22	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:41	user is exist
+2025-01-21 20:54:34	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:73	user already exist
+2025-01-21 20:55:04	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
+2025-01-21 20:55:04	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:98	user register success

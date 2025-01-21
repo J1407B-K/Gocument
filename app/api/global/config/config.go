@@ -3,6 +3,14 @@ package config
 type Config struct {
 	ZapConfig
 	DatabaseConfig
+	CosConfig
+}
+
+type CosConfig struct {
+	SecretId        string
+	SecretKey       string
+	BucketnameAppid string
+	CosRegion       string
 }
 
 type ZapConfig struct {

@@ -115,39 +115,18 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	redisKey := "user:" + user.Username
+
 	//判断用户是否存在(Redis)
 	exist, err := dao.CheckUserInRedis(user.Username)
+
 	//其他redis查询错误
 	if !exist && err != nil {
 		global.Logger.Error("redis check failed" + err.Error())
 	}
-	//不存在
-	if !exist {
-		global.Logger.Debug("user does not exist")
-		c.JSON(http.StatusBadRequest, gin.H{
-			"code": consts.UserNotExist,
-			"msg":  "user does not exist",
-		})
-		return
-	}
 
-	redisKey := "user:" + user.Username
-
-	//判断用户是否存在(Mysql)
-	exist, err = dao.CheckUserInMysql(user.Username)
-
-	//查询出错
-	if err != nil {
-		global.Logger.Error("mysql check failed" + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.MysqlQueryFailed,
-			"msg":  "mysql check failed" + err.Error(),
-		})
-		return
-	}
-
-	//存在，开始登录逻辑
-	if exist {
+	//存在
+	if exist && err == nil {
 		//提取value
 		hashedPassword, err := global.RedisDB.Get(global.Ctx, redisKey).Result()
 		if err != nil {
@@ -167,6 +146,52 @@ func Login(c *gin.Context) {
 			})
 			return
 		}
+		c.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "login success",
+		})
+		return
+	}
+
+	//判断用户是否存在(Mysql)
+	exist, err = dao.CheckUserInMysql(user.Username)
+
+	//查询出错
+	if err != nil {
+		global.Logger.Error("mysql check failed" + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.MysqlQueryFailed,
+			"msg":  "mysql check failed" + err.Error(),
+		})
+		return
+	}
+
+	//存在，开始登录逻辑
+	if exist {
+		var userinMysql model.User
+		global.MysqlDB.Where("username = ?", user.Username).First(&userinMysql)
+
+		//比较
+		err = bcrypt.CompareHashAndPassword([]byte(userinMysql.Password), []byte(user.Password))
+		if err != nil {
+			global.Logger.Error("password compare failed" + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.PasswordCompareWrong,
+				"msg":  "password compare failed" + err.Error(),
+			})
+			return
+		}
+
+		err := SetRedisKey(redisKey, userinMysql.Password)
+		if err != nil {
+			global.Logger.Error("redis set failed" + err.Error())
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"code": 0,
+			"msg":  "login success",
+		})
+		return
 	}
 }
 
