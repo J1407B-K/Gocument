@@ -54,3 +54,17 @@ func UserRegister(username string, password string) error {
 	}
 	return nil
 }
+
+func StoreFileInMeta(username, fileURL, filename string) error {
+	var file model.File
+	file.Username = username
+	file.FileURL = fileURL
+	file.FileName = filename
+
+	result := global.MysqlDB.Create(&file)
+	if result.Error != nil {
+		global.Logger.Error("Mysql failed to create file", zap.Error(result.Error))
+		return result.Error
+	}
+	return nil
+}

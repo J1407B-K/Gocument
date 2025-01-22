@@ -83,3 +83,114 @@
 2025-01-21 20:54:34	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:73	user already exist
 2025-01-21 20:55:04	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
 2025-01-21 20:55:04	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:98	user register success
+2025-01-22 16:36:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 16:36:58	[31mFATAL[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:23	failed to connect mysqldial tcp [::1]:3306: connect: connection refused
+2025-01-22 16:37:39	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 16:37:39	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 16:37:39	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 16:37:39	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:34:25	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:34:25	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:34:25	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:34:25	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:36:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:36:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:36:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:36:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:40:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:40:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:40:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:40:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:42:05	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:42:05	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:42:05	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:42:05	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:45:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:45:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:45:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:45:38	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:47:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:47:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:47:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:47:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:47:52	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
+2025-01-22 17:49:14	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:327	upload to COS failed: PUT http://lanshan-1338048877.cos.ap-chongqing.myqcloud.com/documents/kq/1737539354.docx: 403 SignatureDoesNotMatch(Message: The Signature you specified is invalid., RequestId: Njc5MGJmMWFfZDU3NTA1MGJfMWVmZjdfYzM5YzAxZQ==, TraceId: OGVmYzZiMmQzYjA2OWNhODk0NTRkMTBiOWVmMDAxODc0OWRkZjk0ZDM1NmI1M2E2MTRlY2MzZDhmNmI5MWI1OTQyYWVlY2QwZTk2MDVmZDQ3MmI2Y2I4ZmI5ZmM4ODFjYjI1YzQxNmFjNWQwYTBhMGJiZjM5OWVkMTYzMzE0ZWU=)
+2025-01-22 17:51:00	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:327	upload to COS failed: PUT http://lanshan-1338048877.cos.ap-chongqing.myqcloud.com/documents/kq/1737539459.docx: 403 SignatureDoesNotMatch(Message: The Signature you specified is invalid., RequestId: Njc5MGJmODNfZTk3NDA1MGJfMmUyODBfYzMzN2RhZg==, TraceId: OGVmYzZiMmQzYjA2OWNhODk0NTRkMTBiOWVmMDAxODc0OWRkZjk0ZDM1NmI1M2E2MTRlY2MzZDhmNmI5MWI1OTQyYWVlY2QwZTk2MDVmZDQ3MmI2Y2I4ZmI5ZmM4ODFjYjI1YzQxNmFjNWQwYTBhMGJiZjM5OWVkMTYzMzE0ZWU=)
+2025-01-22 17:53:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 17:53:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 17:53:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 17:53:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 17:53:34	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:327	upload to COS failed: PUT https://lanshan-1338048877.cos.ap-chongqing.myqcloud.com/documents/kq/1737539614.docx: 403 SignatureDoesNotMatch(Message: The Signature you specified is invalid., RequestId: Njc5MGMwMWVfOTY3NDA1MGJfYjNhMV9jMWY4N2Y5, TraceId: OGVmYzZiMmQzYjA2OWNhODk0NTRkMTBiOWVmMDAxODc0OWRkZjk0ZDM1NmI1M2E2MTRlY2MzZDhmNmI5MWI1OTQyYWVlY2QwZTk2MDVmZDQ3MmI2Y2I4ZmI5ZmM4ODFjYjI1YzQxNmFjNWQwYTBhMGJiZjM5OWVkMTYzMzE0ZWU=)
+2025-01-22 18:09:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:09:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:09:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:09:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:10:01	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:327	upload to COS failed: PUT https://lanshan-1338048877.cos.ap-chongqing.myqcloud.com/documents/kq/1737540601.docx: 403 SignatureDoesNotMatch(Message: The Signature you specified is invalid., RequestId: Njc5MGMzZjlfOGM3NTA1MGJfMmRlMmRfYzM4NmQ5YQ==, TraceId: OGVmYzZiMmQzYjA2OWNhODk0NTRkMTBiOWVmMDAxODc0OWRkZjk0ZDM1NmI1M2E2MTRlY2MzZDhmNmI5MWI1OTQyYWVlY2QwZTk2MDVmZDQ3MmI2Y2I4ZmI5ZmM4ODFjYjI1YzQxNmFjNWQwYTBhMGJiZjM5OWVkMTYzMzE0ZWU=)
+2025-01-22 18:12:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:12:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:12:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:12:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:16:46	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:361	filename is required
+2025-01-22 18:16:58	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:361	filename is required
+2025-01-22 18:19:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:19:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:19:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:19:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:20:17	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:66	Mysql failed to create file	{"error": "Error 1062 (23000): Duplicate entry '文本文件.docx' for key 'files.PRIMARY'"}
+2025-01-22 18:20:17	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:341	store document metadata failed: Error 1062 (23000): Duplicate entry '文本文件.docx' for key 'files.PRIMARY'
+2025-01-22 18:22:37	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:66	Mysql failed to create file	{"error": "Error 1062 (23000): Duplicate entry '文本文件.docx' for key 'files.PRIMARY'"}
+2025-01-22 18:22:37	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:341	store document metadata failed: Error 1062 (23000): Duplicate entry '文本文件.docx' for key 'files.PRIMARY'
+2025-01-22 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:28:51	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:66	Mysql failed to create file	{"error": "Error 1062 (23000): Duplicate entry '文本文件.docx' for key 'files.PRIMARY'"}
+2025-01-22 18:28:51	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:328	store document metadata failed: Error 1062 (23000): Duplicate entry '文本文件.docx' for key 'files.PRIMARY'
+2025-01-22 18:35:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:35:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:35:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:35:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:36:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:36:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:36:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:36:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:36:56	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:23	bind user failedEOF
+2025-01-22 18:37:46	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:46	user is exist
+2025-01-22 18:38:20	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
+2025-01-22 18:38:20	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:52	Mysql failed to create user	{"error": "Error 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`Gocument`.`users`, CONSTRAINT `fk_files_user` FOREIGN KEY (`username`) REFERENCES `files` (`file_name`) ON UPDATE CASCADE)"}
+2025-01-22 18:39:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:39:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:39:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:39:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:39:52	[35mDEBUG[0m	/home/kq/GolandProjects/Gocument/app/api/internal/dao/dao.go:33	user does not exist
+2025-01-22 18:39:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:103	user register success
+2025-01-22 18:40:34	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:291	get file failed: http: no such file
+2025-01-22 18:49:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 18:49:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 18:49:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 18:49:58	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 18:50:49	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:46	user is exist
+2025-01-22 18:56:25	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:359	filename is required
+2025-01-22 18:56:35	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:359	filename is required
+2025-01-22 18:57:14	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:359	filename is required
+2025-01-22 18:57:36	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 18:57:55	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 18:58:30	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 18:58:34	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 18:58:35	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 18:59:36	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 19:01:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 19:01:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 19:01:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 19:01:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 19:01:07	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:391	delete file metadata failed: Error 1054 (42S22): Unknown column 'filename' in 'where clause'
+2025-01-22 19:02:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 19:02:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 19:02:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 19:02:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-22 19:06:01	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: record not found
+2025-01-22 19:06:02	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:370	file not found in database: record not found
+2025-01-22 19:10:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-22 19:10:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-22 19:10:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-22 19:10:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success

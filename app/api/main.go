@@ -10,6 +10,7 @@ func main() {
 	initialize.SetupViper()
 	initialize.SetupLogger()
 	initialize.SetupDatabase()
+	initialize.SetUpCos()
 
 	option := flag.Parse()
 	if flag.IsWebStop(option) {

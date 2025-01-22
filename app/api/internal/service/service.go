@@ -4,10 +4,15 @@ import (
 	"Gocument/app/api/global"
 	"Gocument/app/api/internal/consts"
 	"Gocument/app/api/internal/dao"
+	"Gocument/app/api/internal/middle"
 	"Gocument/app/api/internal/model"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/tencentyun/cos-go-sdk-v5"
 	"golang.org/x/crypto/bcrypt"
+	"mime/multipart"
 	"net/http"
+	"path/filepath"
 	"time"
 )
 
@@ -146,9 +151,20 @@ func Login(c *gin.Context) {
 			})
 			return
 		}
+
+		token, err := middle.GenerateToken(user.Username)
+		if err != nil {
+			global.Logger.Error("generate token failed" + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.GenerateTokenFailed,
+				"msg":  "generate token failed" + err.Error(),
+			})
+		}
+
 		c.JSON(http.StatusOK, gin.H{
-			"code": 0,
-			"msg":  "login success",
+			"code":  0,
+			"msg":   "login success",
+			"token": token,
 		})
 		return
 	}
@@ -187,13 +203,202 @@ func Login(c *gin.Context) {
 			global.Logger.Error("redis set failed" + err.Error())
 		}
 
+		token, err := middle.GenerateToken(user.Username)
+		if err != nil {
+			global.Logger.Error("generate token failed" + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.GenerateTokenFailed,
+				"msg":  "generate token failed" + err.Error(),
+			})
+		}
+
 		c.JSON(http.StatusOK, gin.H{
-			"code": 0,
-			"msg":  "login success",
+			"code":  0,
+			"msg":   "login success",
+			"token": token,
 		})
 		return
 	}
 }
+
+// 提供接口，前端上传用户头像
+func UploadAvatar(c *gin.Context) {
+	//获取文件
+	file, err := c.FormFile("avatar")
+	if err != nil {
+		global.Logger.Error("get file failed" + err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.AvatarQueryFailed,
+			"msg":  "avatar upload failed" + err.Error(),
+		})
+		return
+	}
+
+	//验证文件类型(csdn学的嘿嘿)
+	ext := filepath.Ext(file.Filename)
+	if ext != ".jpg" && ext != ".png" && ext != ".jpeg" {
+		global.Logger.Debug("avatar verify failed")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.AvatarQueryFailed,
+			"msg":  "avatar verify failed(.jpg/.png/.jpeg)",
+		})
+		return
+	}
+
+	//生成上传路径
+	username, exist := c.Get("username")
+	if !exist {
+		global.Logger.Error("not found user in middle")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.NotFoundUserInMiddle,
+			"msg":  "not found user in middle",
+		})
+		return
+	}
+
+	//加入时间，拼接成唯一路径
+	cosPath := fmt.Sprintf("avatars/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
+
+	err = dao.StoreFileInMeta(username.(string), cosPath, file.Filename)
+	if err != nil {
+		global.Logger.Error("save file failed" + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.MysqlSaveWrong,
+			"msg":  "save file failed" + err.Error(),
+		})
+		return
+	}
+
+	err = uploadToCOS(global.CosClient, file, cosPath)
+	if err != nil {
+		global.Logger.Error("upload to cos failed" + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.UploadFileWrong,
+			"msg":  "upload to cos failed" + err.Error(),
+		})
+		return
+	}
+	global.Logger.Info("avatar upload success")
+}
+
+// 上传文档接口
+func UploadDocument(c *gin.Context) {
+	// 获取文件
+	file, err := c.FormFile("document")
+	if err != nil {
+		global.Logger.Error("get file failed: " + err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.DocxQueryFailed,
+			"msg":  "document upload failed: " + err.Error(),
+		})
+		return
+	}
+
+	// 验证文件类型
+	ext := filepath.Ext(file.Filename)
+	if ext != ".docx" {
+		global.Logger.Debug("document verify failed")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.DocxQueryFailed,
+			"msg":  "document verify failed (.docx)",
+		})
+		return
+	}
+
+	// 获取用户名
+	username, exist := c.Get("username")
+	if !exist {
+		global.Logger.Error("not found user in middle")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.NotFoundUserInMiddle,
+			"msg":  "not found user in middle",
+		})
+		return
+	}
+
+	// 生成唯一路径
+	cosPath := fmt.Sprintf("documents/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
+
+	err = dao.StoreFileInMeta(username.(string), cosPath, file.Filename)
+	if err != nil {
+		global.Logger.Error("store document metadata failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.MysqlSaveWrong,
+			"msg":  "store document metadata failed: " + err.Error(),
+		})
+		return
+	}
+
+	// 上传到 COS
+	err = uploadToCOS(global.CosClient, file, cosPath)
+	if err != nil {
+		global.Logger.Error("upload to COS failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.UploadFileWrong,
+			"msg":  "upload to COS failed: " + err.Error(),
+		})
+		return
+	}
+
+	// 返回文件 URL
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "document uploaded successfully",
+	})
+}
+
+func DeleteFile(c *gin.Context) {
+	var file model.File
+	// 获取文件名
+	filename := c.DefaultQuery("filename", "")
+	if filename == "" {
+		global.Logger.Error("filename is required")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.FilenameMissing,
+			"msg":  "filename is required",
+		})
+		return
+	}
+
+	//查询file(Mysql)
+	err := global.MysqlDB.Where("file_name = ?", filename).First(&file).Error
+	if err != nil {
+		global.Logger.Error("file not found in database: " + err.Error())
+		c.JSON(http.StatusNotFound, gin.H{
+			"code": consts.FileNotFind,
+			"msg":  "file not found",
+		})
+		return
+	}
+
+	err = deleteFromCOS(global.CosClient, file.FileURL)
+	if err != nil {
+		global.Logger.Error("delete from cos failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.DeleteFileWrong,
+			"msg":  "delete from cos failed:" + err.Error(),
+		})
+		return
+	}
+
+	// 从数据库删除文件元数据
+	err = global.MysqlDB.Where("file_name = ?", filename).Delete(&model.File{}).Error
+	if err != nil {
+		global.Logger.Error("delete file metadata failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.DeleteFileWrong,
+			"msg":  "delete file metadata failed: " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "file deleted successfully",
+	})
+}
+
+//以下为辅助函数
 
 func HashedLock(p string) (string, bool) {
 	hashedP, err := bcrypt.GenerateFromPassword([]byte(p), bcrypt.DefaultCost)
@@ -211,4 +416,28 @@ func SetRedisKey(key string, value string) error {
 		return err
 	}
 	return nil
+}
+
+// 上传到腾讯云 COS
+func uploadToCOS(client *cos.Client, fileHeader *multipart.FileHeader, cosPath string) error {
+	file, err := fileHeader.Open()
+	if err != nil {
+		return err
+	}
+	defer func(file multipart.File) {
+		err := file.Close()
+		if err != nil {
+			global.Logger.Error("close file failed" + err.Error())
+		}
+	}(file)
+
+	_, err = client.Object.Put(global.Ctx, cosPath, file, nil)
+	return err
+}
+
+// 删除文件的辅助函数
+func deleteFromCOS(client *cos.Client, cosPath string) error {
+	// 使用 cos.Client 删除文件
+	_, err := client.Object.Delete(global.Ctx, cosPath)
+	return err
 }

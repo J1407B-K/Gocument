@@ -12,6 +12,7 @@ func DatabaseAutoMigrate() {
 	//自动建表**
 	err = global.MysqlDB.Set("gorm:table_option", "Engine=InnoDB").
 		AutoMigrate(
+			&model.File{},
 			&model.User{},
 		)
 

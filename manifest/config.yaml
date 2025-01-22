@@ -17,6 +17,6 @@ DatabaseConfig:
 
 CosConfig:
   SecretId: AKIDra9XxGPeonZYLyb5i9NQGvMabO0RfgWQ
-  SecretKey: rEST0vfEajfNwHRN8iBany31nLgnhT3Qc
+  SecretKey: rEST0vfEajfNwHRN8iBany31nLgnhT3Q
   BucketnameAppid: lanshan-1338048877
   CosRegion: ap-chongqing

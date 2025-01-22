@@ -16,7 +16,7 @@ func SetupMysql() {
 	mysqlConfig := global.Config.DatabaseConfig.MysqlConfig
 
 	//拼接字符串(更加灵活)
-	dsn := mysqlConfig.Username + ":" + mysqlConfig.Password + "@tcp(" + mysqlConfig.Addr + ")/" + mysqlConfig.DB + "?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := mysqlConfig.Username + ":" + mysqlConfig.Password + "@tcp(" + mysqlConfig.Addr + ")/" + mysqlConfig.DB + "?charset=utf8mb4&collation=utf8mb4_unicode_ci&parseTime=True&loc=Local"
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

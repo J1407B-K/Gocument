@@ -8,7 +8,7 @@ import (
 )
 
 func SetUpCos() {
-	u, _ := url.Parse("http://" + global.Config.CosConfig.BucketnameAppid + ".cos." + global.Config.CosConfig.CosRegion + ".myqcloud.com")
+	u, _ := url.Parse("https://" + global.Config.CosConfig.BucketnameAppid + ".cos." + global.Config.CosConfig.CosRegion + ".myqcloud.com")
 	b := &cos.BaseURL{BucketURL: u}
 	client := cos.NewClient(b, &http.Client{
 		Transport: &cos.AuthorizationTransport{
@@ -16,4 +16,8 @@ func SetUpCos() {
 			SecretKey: global.Config.CosConfig.SecretKey,
 		},
 	})
+
+	global.CosClient = client
+
+	global.Logger.Info("Initialize cos success")
 }
