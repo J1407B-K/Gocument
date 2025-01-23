@@ -259,7 +259,7 @@ func UploadAvatar(c *gin.Context) {
 	//加入时间，拼接成唯一路径
 	cosPath := fmt.Sprintf("avatars/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
 
-	err = dao.StoreFileInMeta(username.(string), cosPath, file.Filename)
+	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename)
 	if err != nil {
 		global.Logger.Error("save file failed" + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -319,7 +319,7 @@ func UploadDocument(c *gin.Context) {
 	// 生成唯一路径
 	cosPath := fmt.Sprintf("documents/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
 
-	err = dao.StoreFileInMeta(username.(string), cosPath, file.Filename)
+	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename)
 	if err != nil {
 		global.Logger.Error("store document metadata failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -360,8 +360,8 @@ func DeleteFile(c *gin.Context) {
 		return
 	}
 
-	//查询file(Mysql)
-	err := global.MysqlDB.Where("file_name = ?", filename).First(&file).Error
+	//之后加redis
+	file, err := dao.SelectMetaFile(filename)
 	if err != nil {
 		global.Logger.Error("file not found in database: " + err.Error())
 		c.JSON(http.StatusNotFound, gin.H{
@@ -381,7 +381,7 @@ func DeleteFile(c *gin.Context) {
 		return
 	}
 
-	// 从数据库删除文件元数据
+	// 从数据库删除文件元数据(之后放dao)
 	err = global.MysqlDB.Where("file_name = ?", filename).Delete(&model.File{}).Error
 	if err != nil {
 		global.Logger.Error("delete file metadata failed: " + err.Error())
@@ -396,6 +396,41 @@ func DeleteFile(c *gin.Context) {
 		"code": 0,
 		"msg":  "file deleted successfully",
 	})
+}
+
+// 更新文档(先删除，后更新)
+func UpdateFile(c *gin.Context) {
+	var file model.File
+	filename := c.DefaultQuery("filename", "")
+	if filename == "" {
+		global.Logger.Error("filename is required")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.FilenameMissing,
+			"msg":  "filename is required",
+		})
+		return
+	}
+
+	//之后加redis
+	file, err := dao.SelectMetaFile(filename)
+	if err != nil {
+		global.Logger.Error("file not found in database: " + err.Error())
+		c.JSON(http.StatusNotFound, gin.H{
+			"code": consts.FileNotFind,
+			"msg":  "file not found",
+		})
+		return
+	}
+
+	err = deleteFromCOS(global.CosClient, file.FileURL)
+	if err != nil {
+		global.Logger.Error("delete from cos failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.DeleteFileWrong,
+			"msg":  "delete from cos failed:" + err.Error(),
+		})
+		return
+	}
 }
 
 //以下为辅助函数

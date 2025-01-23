@@ -55,7 +55,7 @@ func UserRegister(username string, password string) error {
 	return nil
 }
 
-func StoreFileInMeta(username, fileURL, filename string) error {
+func StoreMetaFile(username, fileURL, filename string) error {
 	var file model.File
 	file.Username = username
 	file.FileURL = fileURL
@@ -67,4 +67,15 @@ func StoreFileInMeta(username, fileURL, filename string) error {
 		return result.Error
 	}
 	return nil
+}
+
+func SelectMetaFile(filename string) (model.File, error) {
+	var file model.File
+	//查询file(Mysql)
+	err := global.MysqlDB.Where("file_name = ?", filename).First(&file).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to query meta file", zap.Error(err))
+		return model.File{}, err
+	}
+	return file, nil
 }
