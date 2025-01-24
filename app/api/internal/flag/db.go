@@ -14,6 +14,7 @@ func DatabaseAutoMigrate() {
 		AutoMigrate(
 			&model.File{},
 			&model.User{},
+			&model.FileAccess{},
 		)
 
 	if err != nil {

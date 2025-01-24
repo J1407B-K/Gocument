@@ -24,4 +24,7 @@ const (
 	FilenameMissing      = 5016
 	FileNotFind          = 5017
 	GenerateTokenFailed  = 5018
+	VisibilityNotCorrect = 5019
+	VisibilityWrong      = 5020
+	FileResponseWrong    = 5021
 )

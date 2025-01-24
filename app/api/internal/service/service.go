@@ -6,12 +6,15 @@ import (
 	"Gocument/app/api/internal/dao"
 	"Gocument/app/api/internal/middle"
 	"Gocument/app/api/internal/model"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"golang.org/x/crypto/bcrypt"
+	"io"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"path/filepath"
 	"time"
 )
@@ -108,6 +111,7 @@ func Register(c *gin.Context) {
 	}
 }
 
+// 之后加入Oauth
 func Login(c *gin.Context) {
 	var user model.User
 	err := c.ShouldBindJSON(&user)
@@ -184,8 +188,16 @@ func Login(c *gin.Context) {
 
 	//存在，开始登录逻辑
 	if exist {
-		var userinMysql model.User
-		global.MysqlDB.Where("username = ?", user.Username).First(&userinMysql)
+		var userinMysql *model.User
+		userinMysql, err := dao.SelectUser(user.Username)
+		if err != nil {
+			global.Logger.Error("mysql select user failed" + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.MysqlQueryFailed,
+				"msg":  "mysql select user failed" + err.Error(),
+			})
+			return
+		}
 
 		//比较
 		err = bcrypt.CompareHashAndPassword([]byte(userinMysql.Password), []byte(user.Password))
@@ -198,7 +210,7 @@ func Login(c *gin.Context) {
 			return
 		}
 
-		err := SetRedisKey(redisKey, userinMysql.Password)
+		err = SetRedisKey(redisKey, userinMysql.Password)
 		if err != nil {
 			global.Logger.Error("redis set failed" + err.Error())
 		}
@@ -259,7 +271,7 @@ func UploadAvatar(c *gin.Context) {
 	//加入时间，拼接成唯一路径
 	cosPath := fmt.Sprintf("avatars/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
 
-	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename)
+	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename, "public")
 	if err != nil {
 		global.Logger.Error("save file failed" + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -283,7 +295,7 @@ func UploadAvatar(c *gin.Context) {
 
 // 上传文档接口
 func UploadDocument(c *gin.Context) {
-	// 获取文件
+	// 获取文件和需要的权限
 	file, err := c.FormFile("document")
 	if err != nil {
 		global.Logger.Error("get file failed: " + err.Error())
@@ -293,6 +305,8 @@ func UploadDocument(c *gin.Context) {
 		})
 		return
 	}
+
+	visibility := c.DefaultPostForm("visibility", "public")
 
 	// 验证文件类型
 	ext := filepath.Ext(file.Filename)
@@ -319,7 +333,7 @@ func UploadDocument(c *gin.Context) {
 	// 生成唯一路径
 	cosPath := fmt.Sprintf("documents/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
 
-	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename)
+	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename, visibility)
 	if err != nil {
 		global.Logger.Error("store document metadata failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -340,16 +354,15 @@ func UploadDocument(c *gin.Context) {
 		return
 	}
 
-	// 返回文件 URL
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "document uploaded successfully",
 	})
 }
 
-func DeleteFile(c *gin.Context) {
-	var file model.File
-	// 获取文件名
+func DeleteDocument(c *gin.Context) {
+	var file *model.File
+	// 获取文件名(包含后缀)
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
 		global.Logger.Error("filename is required")
@@ -381,8 +394,8 @@ func DeleteFile(c *gin.Context) {
 		return
 	}
 
-	// 从数据库删除文件元数据(之后放dao)
-	err = global.MysqlDB.Where("file_name = ?", filename).Delete(&model.File{}).Error
+	// 从数据库删除文件元数据
+	err = dao.DeleteMetafile(filename)
 	if err != nil {
 		global.Logger.Error("delete file metadata failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -399,8 +412,8 @@ func DeleteFile(c *gin.Context) {
 }
 
 // 更新文档(先删除，后更新)
-func UpdateFile(c *gin.Context) {
-	var file model.File
+func UpdateDocument(c *gin.Context) {
+	//获取文件名
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
 		global.Logger.Error("filename is required")
@@ -411,8 +424,30 @@ func UpdateFile(c *gin.Context) {
 		return
 	}
 
+	// 获取文件
+	file, err := c.FormFile("document")
+	if err != nil {
+		global.Logger.Error("get file failed: " + err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.DocxQueryFailed,
+			"msg":  "document upload failed: " + err.Error(),
+		})
+		return
+	}
+
+	// 验证文件类型
+	ext := filepath.Ext(file.Filename)
+	if ext != ".docx" {
+		global.Logger.Debug("document verify failed")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.DocxQueryFailed,
+			"msg":  "document verify failed (.docx)",
+		})
+		return
+	}
+
 	//之后加redis
-	file, err := dao.SelectMetaFile(filename)
+	Metafile, err := dao.SelectMetaFile(filename)
 	if err != nil {
 		global.Logger.Error("file not found in database: " + err.Error())
 		c.JSON(http.StatusNotFound, gin.H{
@@ -422,7 +457,8 @@ func UpdateFile(c *gin.Context) {
 		return
 	}
 
-	err = deleteFromCOS(global.CosClient, file.FileURL)
+	//先从COS上删除
+	err = deleteFromCOS(global.CosClient, Metafile.FileURL)
 	if err != nil {
 		global.Logger.Error("delete from cos failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -430,6 +466,127 @@ func UpdateFile(c *gin.Context) {
 			"msg":  "delete from cos failed:" + err.Error(),
 		})
 		return
+	}
+
+	username, exist := c.Get("username")
+	if !exist {
+		global.Logger.Error("not found username in middle")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.NotFoundUserInMiddle,
+			"msg":  "not found username in middle",
+		})
+	}
+
+	//生成新URL
+	cosPath := fmt.Sprintf("documents/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
+
+	// 上传到 COS
+	err = uploadToCOS(global.CosClient, file, cosPath)
+	if err != nil {
+		global.Logger.Error("upload to COS failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.UploadFileWrong,
+			"msg":  "upload to COS failed: " + err.Error(),
+		})
+		return
+	}
+
+	err = dao.UpdateMetaFileURL(Metafile, cosPath)
+	if err != nil {
+		global.Logger.Error("update Metafile url failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.MysqlSaveWrong,
+			"msg":  "update Metafile url failed: " + err.Error(),
+		})
+	}
+
+	global.Logger.Info("update file successfully")
+}
+
+func GetDocument(c *gin.Context) {
+	filename := c.DefaultQuery("filename", "")
+	if filename == "" {
+		global.Logger.Error("filename is required")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.FilenameMissing,
+			"msg":  "filename is required",
+		})
+		return
+	}
+
+	usernameNow, exist := c.Get("username")
+	if !exist {
+		global.Logger.Error("not found username in middle")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.NotFoundUserInMiddle,
+			"msg":  "not found username in middle",
+		})
+		return
+	}
+
+	//鉴权
+	ok, err := CheckFilePermission(filename, usernameNow.(string))
+	if !ok {
+		if err != nil {
+			global.Logger.Error("check permission failed: " + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.VisibilityWrong,
+				"msg":  "check permission failed: " + err.Error(),
+			})
+			return
+		} else {
+		}
+		global.Logger.Debug("visibility not correct")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.VisibilityNotCorrect,
+			"msg":  "visibility not correct",
+		})
+		return
+	}
+
+	metaFile, err := dao.SelectMetaFile(filename)
+	if err != nil {
+		global.Logger.Error("metafile not found in database: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.FileNotFind,
+			"msg":  "metafile not found in database",
+		})
+		return
+	}
+	cosPath := metaFile.FileURL
+
+	fileStream, err := getFromCOS(global.CosClient, cosPath)
+	if err != nil {
+		global.Logger.Error("failed to download file from COS: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.GetFileWrong,
+			"msg":  "failed to download file from COS: " + err.Error(),
+		})
+		return
+	}
+	defer func(fileStream io.ReadCloser) {
+		err := fileStream.Close()
+		if err != nil {
+			global.Logger.Error("failed to close file stream: " + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.CloseFileWrong,
+				"msg":  "failed to close file stream: " + err.Error(),
+			})
+		}
+	}(fileStream)
+
+	// 设置文件 MIME 类型（docx）
+	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+
+	// 在浏览器中嵌入文件，可允许查看或下载
+	c.Header("Content-Disposition", "inline; filename="+url.QueryEscape(filename)) // inline 表示在浏览器中显示
+	_, err = io.Copy(c.Writer, fileStream)
+	if err != nil {
+		global.Logger.Error("failed to write file to response: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.FileResponseWrong,
+			"msg":  "failed to write file to response",
+		})
 	}
 }
 
@@ -470,9 +627,66 @@ func uploadToCOS(client *cos.Client, fileHeader *multipart.FileHeader, cosPath s
 	return err
 }
 
+// 从COS上拉下来
+func getFromCOS(client *cos.Client, cosPath string) (io.ReadCloser, error) {
+	if cosPath == "" {
+		return nil, errors.New("file_path is required")
+	}
+	//获取文件
+	response, err := client.Object.Get(global.Ctx, cosPath, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// 返回文件流
+	return response.Body, nil
+}
+
 // 删除文件的辅助函数
 func deleteFromCOS(client *cos.Client, cosPath string) error {
 	// 使用 cos.Client 删除文件
 	_, err := client.Object.Delete(global.Ctx, cosPath)
 	return err
+}
+
+// 检查权限的辅助函数
+func CheckFilePermission(filename, usernameNow string) (bool, error) {
+	metaFile, err := dao.SelectMetaFile(filename)
+	if err != nil {
+		global.Logger.Error("Metafile not found/failed in database: " + err.Error())
+		return false, err
+	}
+
+	// 检查权限
+	if metaFile.Visibility == "public" {
+		return true, nil // 公开文件
+	}
+	if metaFile.Visibility == "private" && metaFile.Username == usernameNow {
+		return true, nil // 文件所有者
+	}
+	if metaFile.Visibility == "restricted" {
+
+		//** 复杂的权限需求(之后)
+
+		return false, nil
+	} else {
+		global.Logger.Error("meta file is not public or private or restricted/something wrong")
+		return false, errors.New("meta file is not public or private or restricted/something wrong")
+	}
+}
+
+func UpdateMetaFileVisibility(filename, usernameNow, newVisibility string) error {
+	metaFile, err := dao.CheckUserAndFilename(filename, usernameNow)
+	if err != nil {
+		global.Logger.Error("CheckUserAndFilename failed: " + err.Error())
+		return err
+	}
+
+	err = dao.UpdateMetaFileVisibility(metaFile, newVisibility)
+	if err != nil {
+		global.Logger.Error("Update MetaFile Visibility failed: " + err.Error())
+		return err
+	}
+
+	return nil
 }

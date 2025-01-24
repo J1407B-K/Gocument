@@ -42,6 +42,16 @@ func CheckUserInMysql(username string) (bool, error) {
 	}
 }
 
+func CheckUserAndFilename(filename, username string) (*model.File, error) {
+	var file model.File
+
+	err := global.MysqlDB.Where("file_name = ? AND username = ?", filename, username).First(&file).Error
+	if err != nil {
+		return &model.File{}, err
+	}
+	return &file, nil
+}
+
 func UserRegister(username string, password string) error {
 	var user model.User
 	user.Username = username
@@ -55,11 +65,12 @@ func UserRegister(username string, password string) error {
 	return nil
 }
 
-func StoreMetaFile(username, fileURL, filename string) error {
+func StoreMetaFile(username, fileURL, filename, visibility string) error {
 	var file model.File
 	file.Username = username
 	file.FileURL = fileURL
 	file.FileName = filename
+	file.Visibility = visibility
 
 	result := global.MysqlDB.Create(&file)
 	if result.Error != nil {
@@ -69,13 +80,59 @@ func StoreMetaFile(username, fileURL, filename string) error {
 	return nil
 }
 
-func SelectMetaFile(filename string) (model.File, error) {
+func SelectUser(username string) (*model.User, error) {
+	var user model.User
+	result := global.MysqlDB.Where("username = ?", username).First(&user)
+	if result.Error != nil {
+		global.Logger.Error("Mysql failed to query existing user", zap.Error(result.Error))
+		return &model.User{}, result.Error
+	}
+	return &user, nil
+}
+
+func SelectMetaFile(filename string) (*model.File, error) {
 	var file model.File
 	//查询file(Mysql)
 	err := global.MysqlDB.Where("file_name = ?", filename).First(&file).Error
 	if err != nil {
 		global.Logger.Error("Mysql failed to query meta file", zap.Error(err))
-		return model.File{}, err
+		return &model.File{}, err
 	}
-	return file, nil
+	return &file, nil
+}
+
+func DeleteMetafile(filename string) error {
+	var file model.File
+	err := global.MysqlDB.Where("file_name = ?", filename).First(&file).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to query meta file", zap.Error(err))
+		return err
+	}
+	err = global.MysqlDB.Delete(&file).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to delete meta file", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
+// 元数据只改变URL
+func UpdateMetaFileURL(MetaFile *model.File, NewURL string) error {
+	MetaFile.FileURL = NewURL
+	result := global.MysqlDB.Save(MetaFile)
+	if result.Error != nil {
+		global.Logger.Error("Mysql failed to update meta file", zap.Error(result.Error))
+		return result.Error
+	}
+	return nil
+}
+
+func UpdateMetaFileVisibility(MetaFile *model.File, NewVisibility string) error {
+	MetaFile.Visibility = NewVisibility
+	result := global.MysqlDB.Save(MetaFile)
+	if result.Error != nil {
+		global.Logger.Error("Mysql failed to update meta file", zap.Error(result.Error))
+		return result.Error
+	}
+	return nil
 }

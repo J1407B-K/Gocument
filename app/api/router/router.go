@@ -18,7 +18,9 @@ func InitRouter() {
 
 	p.POST("/upload/avatar", service.UploadAvatar)
 	p.POST("/upload/document", service.UploadDocument)
-	p.DELETE("/delete/document", service.DeleteFile)
+	p.DELETE("/delete/document", service.DeleteDocument)
+	p.PUT("/update/document", service.UpdateDocument)
+	p.GET("/get/document", service.GetDocument)
 
 	err := r.Run()
 	if err != nil {
