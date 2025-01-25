@@ -8,6 +8,15 @@ import (
 	"gorm.io/gorm"
 )
 
+func CreateFileAccess(username, filename string) bool {
+	var fileAccess model.FileAccess
+	fileAccess.Username = username
+	fileAccess.FileName = filename
+
+	global.MysqlDB.Create(&fileAccess)
+	return true
+}
+
 func CheckUserInRedis(username string) (bool, error) {
 	redisName := "user:" + username
 
@@ -70,6 +79,7 @@ func StoreMetaFile(username, fileURL, filename, visibility string) error {
 	file.Username = username
 	file.FileURL = fileURL
 	file.FileName = filename
+	file.HelpFileNameUpdater = filename
 	file.Visibility = visibility
 
 	result := global.MysqlDB.Create(&file)
@@ -101,6 +111,17 @@ func SelectMetaFile(filename string) (*model.File, error) {
 	return &file, nil
 }
 
+func SelectFileAccess(filename string) ([]model.FileAccess, error) {
+	var fileAccesses []model.FileAccess
+	//查询所有符合的fileAccess
+	err := global.MysqlDB.Model(&model.FileAccess{}).Where("file_name = ?", filename).Find(&fileAccesses).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to query meta file", zap.Error(err))
+		return []model.FileAccess{}, err
+	}
+	return fileAccesses, nil
+}
+
 func DeleteMetafile(filename string) error {
 	var file model.File
 	err := global.MysqlDB.Where("file_name = ?", filename).First(&file).Error
@@ -120,6 +141,16 @@ func DeleteMetafile(filename string) error {
 func UpdateMetaFileURL(MetaFile *model.File, NewURL string) error {
 	MetaFile.FileURL = NewURL
 	result := global.MysqlDB.Save(MetaFile)
+	if result.Error != nil {
+		global.Logger.Error("Mysql failed to update meta file", zap.Error(result.Error))
+		return result.Error
+	}
+	return nil
+}
+
+// 元数据只改变文件名
+func UpdateMetaFileName(MetaFile *model.File, NewFileName string) error {
+	result := global.MysqlDB.Model(MetaFile).Update("file_name", NewFileName)
 	if result.Error != nil {
 		global.Logger.Error("Mysql failed to update meta file", zap.Error(result.Error))
 		return result.Error

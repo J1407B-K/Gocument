@@ -11,10 +11,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"golang.org/x/crypto/bcrypt"
-	"io"
 	"mime/multipart"
 	"net/http"
-	"net/url"
 	"path/filepath"
 	"time"
 )
@@ -233,7 +231,7 @@ func Login(c *gin.Context) {
 	}
 }
 
-// 提供接口，前端上传用户头像
+// 提供接口，前端上传用户头像(public)
 func UploadAvatar(c *gin.Context) {
 	//获取文件
 	file, err := c.FormFile("avatar")
@@ -269,7 +267,7 @@ func UploadAvatar(c *gin.Context) {
 	}
 
 	//加入时间，拼接成唯一路径
-	cosPath := fmt.Sprintf("avatars/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
+	cosPath := fmt.Sprintf("avatars/%s/%s", username, file.Filename)
 
 	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename, "public")
 	if err != nil {
@@ -293,7 +291,7 @@ func UploadAvatar(c *gin.Context) {
 	global.Logger.Info("avatar upload success")
 }
 
-// 上传文档接口
+// 上传文档接口(用户创建时调用)
 func UploadDocument(c *gin.Context) {
 	// 获取文件和需要的权限
 	file, err := c.FormFile("document")
@@ -330,8 +328,8 @@ func UploadDocument(c *gin.Context) {
 		return
 	}
 
-	// 生成唯一路径
-	cosPath := fmt.Sprintf("documents/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
+	// 生成唯一路径（之后想如何加入时间戳允许重名）
+	cosPath := fmt.Sprintf("documents/%s/%s", username, file.Filename)
 
 	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename, visibility)
 	if err != nil {
@@ -354,6 +352,16 @@ func UploadDocument(c *gin.Context) {
 		return
 	}
 
+	err = createFileAccess(username.(string), file.Filename)
+	if err != nil {
+		global.Logger.Error("create file access failed" + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.CreateFileAccessFail,
+			"msg":  "create file access failed" + err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "document uploaded successfully",
@@ -361,7 +369,6 @@ func UploadDocument(c *gin.Context) {
 }
 
 func DeleteDocument(c *gin.Context) {
-	var file *model.File
 	// 获取文件名(包含后缀)
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
@@ -374,7 +381,7 @@ func DeleteDocument(c *gin.Context) {
 	}
 
 	//之后加redis
-	file, err := dao.SelectMetaFile(filename)
+	MetaFile, err := dao.SelectMetaFile(filename)
 	if err != nil {
 		global.Logger.Error("file not found in database: " + err.Error())
 		c.JSON(http.StatusNotFound, gin.H{
@@ -384,16 +391,28 @@ func DeleteDocument(c *gin.Context) {
 		return
 	}
 
-	err = deleteFromCOS(global.CosClient, file.FileURL)
-	if err != nil {
-		global.Logger.Error("delete from cos failed: " + err.Error())
+	username, exist := c.Get("username")
+	if !exist {
+		global.Logger.Error("not found username in middle")
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.DeleteFileWrong,
-			"msg":  "delete from cos failed:" + err.Error(),
+			"code": consts.NotFoundUserInMiddle,
+			"msg":  "not found username in middle",
 		})
 		return
 	}
 
+	//鉴权（是否为拥有者）
+	if MetaFile.Username == username.(string) {
+		err = deleteFromCOS(global.CosClient, MetaFile.FileURL)
+		if err != nil {
+			global.Logger.Error("delete from cos failed: " + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.DeleteFileWrong,
+				"msg":  "delete from cos failed:" + err.Error(),
+			})
+			return
+		}
+	}
 	// 从数据库删除文件元数据
 	err = dao.DeleteMetafile(filename)
 	if err != nil {
@@ -424,6 +443,9 @@ func UpdateDocument(c *gin.Context) {
 		return
 	}
 
+	//新文件名（可选）
+	newfilename := c.DefaultQuery("newfilename", filename)
+
 	// 获取文件
 	file, err := c.FormFile("document")
 	if err != nil {
@@ -446,24 +468,13 @@ func UpdateDocument(c *gin.Context) {
 		return
 	}
 
-	//之后加redis
-	Metafile, err := dao.SelectMetaFile(filename)
+	//查修改权限
+	fileAccesses, err := selectFileAccess(filename)
 	if err != nil {
-		global.Logger.Error("file not found in database: " + err.Error())
-		c.JSON(http.StatusNotFound, gin.H{
-			"code": consts.FileNotFind,
-			"msg":  "file not found",
-		})
-		return
-	}
-
-	//先从COS上删除
-	err = deleteFromCOS(global.CosClient, Metafile.FileURL)
-	if err != nil {
-		global.Logger.Error("delete from cos failed: " + err.Error())
+		global.Logger.Error("check user change file failed: " + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.DeleteFileWrong,
-			"msg":  "delete from cos failed:" + err.Error(),
+			"code": consts.UserCannotChangeFile,
+			"msg":  "user change file failed: " + err.Error(),
 		})
 		return
 	}
@@ -475,32 +486,94 @@ func UpdateDocument(c *gin.Context) {
 			"code": consts.NotFoundUserInMiddle,
 			"msg":  "not found username in middle",
 		})
+		return
 	}
 
-	//生成新URL
-	cosPath := fmt.Sprintf("documents/%s/%s%d%s", username, file.Filename, time.Now().Unix(), ext)
-
-	// 上传到 COS
-	err = uploadToCOS(global.CosClient, file, cosPath)
+	//找元数据
+	Metafile, err := dao.SelectMetaFile(filename)
 	if err != nil {
-		global.Logger.Error("upload to COS failed: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.UploadFileWrong,
-			"msg":  "upload to COS failed: " + err.Error(),
+		global.Logger.Error("file not found in database: " + err.Error())
+		c.JSON(http.StatusNotFound, gin.H{
+			"code": consts.FileNotFind,
+			"msg":  "file not found",
 		})
 		return
 	}
 
-	err = dao.UpdateMetaFileURL(Metafile, cosPath)
-	if err != nil {
-		global.Logger.Error("update Metafile url failed: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.MysqlSaveWrong,
-			"msg":  "update Metafile url failed: " + err.Error(),
-		})
+	//遍历查询是否有权限修改
+	for _, fileAccess := range fileAccesses {
+		//有匹配权限
+		if fileAccess.Username == username.(string) {
+			//先从COS上删除
+			err = deleteFromCOS(global.CosClient, Metafile.FileURL)
+			if err != nil {
+				global.Logger.Error("delete from cos failed: " + err.Error())
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"code": consts.DeleteFileWrong,
+					"msg":  "delete from cos failed:" + err.Error(),
+				})
+				return
+			}
+
+			username, exist := c.Get("username")
+			if !exist {
+				global.Logger.Error("not found username in middle")
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"code": consts.NotFoundUserInMiddle,
+					"msg":  "not found username in middle",
+				})
+			}
+
+			//生成新URL
+			cosPath := fmt.Sprintf("documents/%s/%s", username, newfilename)
+
+			// 上传到 COS
+			err = uploadToCOS(global.CosClient, file, cosPath)
+			if err != nil {
+				global.Logger.Error("upload to COS failed: " + err.Error())
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"code": consts.UploadFileWrong,
+					"msg":  "upload to COS failed: " + err.Error(),
+				})
+				return
+			}
+
+			//新文件名保存
+			err = dao.UpdateMetaFileName(Metafile, newfilename)
+			if err != nil {
+				global.Logger.Error("update Metafile url failed: " + err.Error())
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"code": consts.MysqlSaveWrong,
+					"msg":  "update Metafile url failed: " + err.Error(),
+				})
+			}
+
+			//新URL保存
+			err = dao.UpdateMetaFileURL(Metafile, cosPath)
+			if err != nil {
+				global.Logger.Error("update Metafile url failed: " + err.Error())
+				c.JSON(http.StatusInternalServerError, gin.H{
+					"code": consts.MysqlSaveWrong,
+					"msg":  "update Metafile url failed: " + err.Error(),
+				})
+			}
+
+			global.Logger.Info("update file successfully")
+			c.JSON(http.StatusOK, gin.H{
+				"code": 0,
+				"msg":  "file updated successfully",
+			})
+			return
+		}
 	}
 
-	global.Logger.Info("update file successfully")
+	//遍历后仍未找到符合权限
+	global.Logger.Debug("User CannotChange file")
+	c.JSON(http.StatusNotFound, gin.H{
+		"code": consts.UserCannotChangeFile,
+		"msg":  "User CannotChange file",
+	})
+
 }
 
 func GetDocument(c *gin.Context) {
@@ -525,7 +598,7 @@ func GetDocument(c *gin.Context) {
 	}
 
 	//鉴权
-	ok, err := CheckFilePermission(filename, usernameNow.(string))
+	ok, err := checkFilePermission(filename, usernameNow.(string))
 	if !ok {
 		if err != nil {
 			global.Logger.Error("check permission failed: " + err.Error())
@@ -553,41 +626,14 @@ func GetDocument(c *gin.Context) {
 		})
 		return
 	}
+
+	//直接返回COS连接
 	cosPath := metaFile.FileURL
-
-	fileStream, err := getFromCOS(global.CosClient, cosPath)
-	if err != nil {
-		global.Logger.Error("failed to download file from COS: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.GetFileWrong,
-			"msg":  "failed to download file from COS: " + err.Error(),
-		})
-		return
-	}
-	defer func(fileStream io.ReadCloser) {
-		err := fileStream.Close()
-		if err != nil {
-			global.Logger.Error("failed to close file stream: " + err.Error())
-			c.JSON(http.StatusInternalServerError, gin.H{
-				"code": consts.CloseFileWrong,
-				"msg":  "failed to close file stream: " + err.Error(),
-			})
-		}
-	}(fileStream)
-
-	// 设置文件 MIME 类型（docx）
-	c.Header("Content-Type", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
-
-	// 在浏览器中嵌入文件，可允许查看或下载
-	c.Header("Content-Disposition", "inline; filename="+url.QueryEscape(filename)) // inline 表示在浏览器中显示
-	_, err = io.Copy(c.Writer, fileStream)
-	if err != nil {
-		global.Logger.Error("failed to write file to response: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.FileResponseWrong,
-			"msg":  "failed to write file to response",
-		})
-	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "document get successfully",
+		"URL":  cosPath,
+	})
 }
 
 //以下为辅助函数
@@ -627,21 +673,6 @@ func uploadToCOS(client *cos.Client, fileHeader *multipart.FileHeader, cosPath s
 	return err
 }
 
-// 从COS上拉下来
-func getFromCOS(client *cos.Client, cosPath string) (io.ReadCloser, error) {
-	if cosPath == "" {
-		return nil, errors.New("file_path is required")
-	}
-	//获取文件
-	response, err := client.Object.Get(global.Ctx, cosPath, nil)
-	if err != nil {
-		return nil, err
-	}
-
-	// 返回文件流
-	return response.Body, nil
-}
-
 // 删除文件的辅助函数
 func deleteFromCOS(client *cos.Client, cosPath string) error {
 	// 使用 cos.Client 删除文件
@@ -649,8 +680,8 @@ func deleteFromCOS(client *cos.Client, cosPath string) error {
 	return err
 }
 
-// 检查权限的辅助函数
-func CheckFilePermission(filename, usernameNow string) (bool, error) {
+// 检查查看权限的辅助函数
+func checkFilePermission(filename, usernameNow string) (bool, error) {
 	metaFile, err := dao.SelectMetaFile(filename)
 	if err != nil {
 		global.Logger.Error("Metafile not found/failed in database: " + err.Error())
@@ -675,7 +706,29 @@ func CheckFilePermission(filename, usernameNow string) (bool, error) {
 	}
 }
 
-func UpdateMetaFileVisibility(filename, usernameNow, newVisibility string) error {
+func createFileAccess(username, filename string) error {
+	ok := dao.CreateFileAccess(username, filename)
+	if !ok {
+		global.Logger.Error("create file access failed")
+		return errors.New("create file access failed")
+	}
+	return nil
+}
+
+// 检查能否修改文档的辅助函数
+func selectFileAccess(filename string) ([]model.FileAccess, error) {
+	var fileAccessess []model.FileAccess
+
+	fileAccessess, err := dao.SelectFileAccess(filename)
+	if err != nil {
+		global.Logger.Error("Select fileAccess failed: " + err.Error())
+		return nil, err
+	}
+	return fileAccessess, nil
+}
+
+// 修改文档隐私性的辅助函数
+func updateMetaFileVisibility(filename, usernameNow, newVisibility string) error {
 	metaFile, err := dao.CheckUserAndFilename(filename, usernameNow)
 	if err != nil {
 		global.Logger.Error("CheckUserAndFilename failed: " + err.Error())

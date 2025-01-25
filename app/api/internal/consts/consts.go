@@ -26,5 +26,7 @@ const (
 	GenerateTokenFailed  = 5018
 	VisibilityNotCorrect = 5019
 	VisibilityWrong      = 5020
-	FileResponseWrong    = 5021
+	UserCannotChangeFile = 5021
+	FileResponseWrong    = 5022
+	CreateFileAccessFail = 5023
 )
