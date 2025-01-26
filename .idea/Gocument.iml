@@ -5,5 +5,7 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="cos-js-sdk-v5" level="application" />
+    <orderEntry type="library" name="jszip" level="application" />
   </component>
 </module>
