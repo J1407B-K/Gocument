@@ -246,11 +246,11 @@ func UploadAvatar(c *gin.Context) {
 
 	//验证文件类型(csdn学的嘿嘿)
 	ext := filepath.Ext(file.Filename)
-	if ext != ".jpg" && ext != ".png" && ext != ".jpeg" {
+	if ext != ".jpg" {
 		global.Logger.Debug("avatar verify failed")
 		c.JSON(http.StatusBadRequest, gin.H{
 			"code": consts.AvatarQueryFailed,
-			"msg":  "avatar verify failed(.jpg/.png/.jpeg)",
+			"msg":  "avatar verify failed(.jpg)",
 		})
 		return
 	}
@@ -266,10 +266,10 @@ func UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	//加入时间，拼接成唯一路径
-	cosPath := fmt.Sprintf("avatars/%s/%s", username, file.Filename)
+	//拼接成路径
+	cosPath := fmt.Sprintf("avatars/%s/%s", username, username.(string)+ext)
 
-	err = dao.StoreMetaFile(username.(string), cosPath, file.Filename, "public")
+	err = dao.StoreMetaFile(username.(string), cosPath, username.(string)+".jpg", "public")
 	if err != nil {
 		global.Logger.Error("save file failed" + err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -289,6 +289,10 @@ func UploadAvatar(c *gin.Context) {
 		return
 	}
 	global.Logger.Info("avatar upload success")
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "upload success",
+	})
 }
 
 // 上传文档接口(用户创建时调用)
@@ -636,6 +640,79 @@ func GetDocument(c *gin.Context) {
 	})
 }
 
+func GetAvatar(c *gin.Context) {
+	username := c.DefaultQuery("username", "")
+	if username == "" {
+		global.Logger.Error("username is required")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.UsernameMissing,
+			"msg":  "username is required",
+		})
+		return
+	}
+
+	filename := username + ".jpg"
+
+	metaFile, err := dao.SelectMetaFile(filename)
+	if err != nil {
+		global.Logger.Error("metafile not found in database: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.FileNotFind,
+			"msg":  "metafile not found in database",
+		})
+		return
+	}
+
+	//直接返回COS连接
+	cosPath := metaFile.FileURL
+	c.JSON(http.StatusOK, gin.H{
+		"code": 0,
+		"msg":  "avatar get successfully",
+		"URL":  cosPath,
+	})
+}
+
+func SelectUserInfo(c *gin.Context) {
+	username := c.DefaultQuery("username", "")
+	if username == "" {
+		global.Logger.Error("username is required")
+		c.JSON(http.StatusBadRequest, gin.H{
+			"code": consts.UsernameMissing,
+			"msg":  "username is required",
+		})
+		return
+	}
+
+	userInfo, err := dao.SelectUser(username)
+	userInfo.Password = "-"
+
+	if err != nil {
+		global.Logger.Error("user not found in database: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.MysqlQueryFailed,
+			"msg":  "user not found in database" + err.Error(),
+		})
+		return
+	}
+
+	MetaFiles, err := dao.SelectMetaFileByUsername(username)
+	if err != nil {
+		global.Logger.Error("metafile not found in database: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.MysqlQueryFailed,
+			"msg":  "metafile not found in database" + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code":      0,
+		"msg":       "Info selecting successfully",
+		"User":      userInfo,
+		"MetaFiles": MetaFiles,
+	})
+}
+
 //以下为辅助函数
 
 func HashedLock(p string) (string, bool) {
@@ -690,14 +767,14 @@ func checkFilePermission(filename, usernameNow string) (bool, error) {
 
 	// 检查权限
 	if metaFile.Visibility == "public" {
-		return true, nil // 公开文件
+		return true, nil // 公开文件(所有人都可看，持有fileAccess可以修改)
 	}
 	if metaFile.Visibility == "private" && metaFile.Username == usernameNow {
-		return true, nil // 文件所有者
+		return true, nil // 文件所有者（只有所有者可看可修改）
 	}
 	if metaFile.Visibility == "restricted" {
 
-		//** 复杂的权限需求(之后)
+		//**持有fileAccess、所有者可以看、修改(之后)
 
 		return false, nil
 	} else {

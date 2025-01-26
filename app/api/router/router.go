@@ -2,6 +2,7 @@ package router
 
 import (
 	"Gocument/app/api/global"
+	"Gocument/app/api/internal/conn"
 	"Gocument/app/api/internal/middle"
 	"Gocument/app/api/internal/service"
 	"github.com/gin-gonic/gin"
@@ -10,8 +11,17 @@ import (
 func InitRouter() {
 	r := gin.Default()
 
+	// WebSocket 路由
+	r.GET("/websocket/writer", func(c *gin.Context) {
+		conn.BackServer.HandleConnections(c)
+	})
+
+	go conn.BackServer.HandleMessages()
+
 	r.POST("/register", service.Register)
 	r.POST("/login", service.Login)
+	r.GET("/select", service.SelectUserInfo)
+	r.GET("/get/avatar", service.GetAvatar)
 
 	p := r.Group("/")
 	p.Use(middle.JWTAuthMiddleware())

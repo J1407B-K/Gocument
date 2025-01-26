@@ -29,4 +29,8 @@ const (
 	UserCannotChangeFile = 5021
 	FileResponseWrong    = 5022
 	CreateFileAccessFail = 5023
+	WebSocketUpgradeFail = 5024
+	WebSocketCloseFail   = 5025
+	WebListenFailed      = 5026
+	UsernameMissing      = 5027
 )

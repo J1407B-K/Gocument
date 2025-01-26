@@ -354,3 +354,177 @@
 2025-01-25 18:44:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
 2025-01-25 18:45:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:561	update file successfully
 2025-01-25 18:45:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:561	update file successfully
+2025-01-26 15:39:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 15:39:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 15:39:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 15:39:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 16:45:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 16:45:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 16:45:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 16:45:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 16:55:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 16:55:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 16:55:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 16:55:00	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 16:55:00	[31mFATAL[0m	/home/kq/GolandProjects/Gocument/app/api/router/router.go:36	Initialize router failedlisten tcp :8080: bind: address already in use
+2025-01-26 16:55:14	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 16:55:14	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 16:55:14	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 16:55:14	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:10:18	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:10:18	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:10:18	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:10:18	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:10:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:10:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:10:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:10:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:12:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:12:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:12:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:12:08	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:25:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:25:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:25:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:25:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:29:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:29:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:29:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:29:30	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:29:48	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:291	avatar upload success
+2025-01-26 17:32:38	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:642	username is required
+2025-01-26 17:35:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:35:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:35:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:35:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:37:11	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:45	WebSocket upgrade error	{"error": "websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header"}
+2025-01-26 17:38:08	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:45	WebSocket upgrade error	{"error": "websocket: request origin not allowed by Upgrader.CheckOrigin"}
+2025-01-26 17:39:40	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:39:40	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:39:40	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:39:40	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:39:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-01-26 17:39:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:54	Client disconnected: 127.0.0.1
+2025-01-26 17:39:44	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:76	Error reading message from client 127.0.0.1	{"error": "read tcp 127.0.0.1:8080->127.0.0.1:60822: use of closed network connection"}
+2025-01-26 17:39:44	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Client disconnected: 127.0.0.1
+2025-01-26 17:40:13	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-01-26 17:40:13	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:54	Client disconnected: 127.0.0.1
+2025-01-26 17:40:13	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:76	Error reading message from client 127.0.0.1	{"error": "read tcp 127.0.0.1:8080->127.0.0.1:56804: use of closed network connection"}
+2025-01-26 17:40:13	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Client disconnected: 127.0.0.1
+2025-01-26 17:40:14	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:95	Failed to send ping	{"error": "write tcp 127.0.0.1:8080->127.0.0.1:60822: use of closed network connection"}
+2025-01-26 17:40:43	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:95	Failed to send ping	{"error": "write tcp 127.0.0.1:8080->127.0.0.1:56804: use of closed network connection"}
+2025-01-26 17:42:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:42:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:42:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:42:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:42:19	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-01-26 17:42:19	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:54	Client disconnected: 127.0.0.1
+2025-01-26 17:42:19	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:76	Error reading message from client 127.0.0.1	{"error": "read tcp 127.0.0.1:8080->127.0.0.1:40782: use of closed network connection"}
+2025-01-26 17:42:19	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Client disconnected: 127.0.0.1
+2025-01-26 17:42:49	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:95	Failed to send ping	{"error": "write tcp 127.0.0.1:8080->127.0.0.1:40782: use of closed network connection"}
+2025-01-26 17:44:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:44:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:44:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:44:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:44:26	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-01-26 17:44:26	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:54	Client disconnected: 127.0.0.1
+2025-01-26 17:44:26	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:76	Error reading message from client 127.0.0.1	{"error": "read tcp 127.0.0.1:8080->127.0.0.1:40712: use of closed network connection"}
+2025-01-26 17:44:26	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Client disconnected: 127.0.0.1
+2025-01-26 17:44:56	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:95	Failed to send ping	{"error": "write tcp 127.0.0.1:8080->127.0.0.1:40712: use of closed network connection"}
+2025-01-26 17:47:51	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:47:51	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:47:51	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:47:51	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:47:52	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-01-26 17:48:21	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:76	Error reading message from client 127.0.0.1	{"error": "websocket: close 1000 (normal)"}
+2025-01-26 17:48:21	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Client disconnected: 127.0.0.1
+2025-01-26 17:48:22	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:95	Failed to send ping	{"error": "websocket: close sent"}
+2025-01-26 17:52:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 17:52:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 17:52:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 17:52:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 17:52:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:78	Client connected: 127.0.0.1
+2025-01-26 18:01:46	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:01:46	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:01:46	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:01:46	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:01:59	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:79	Client connected: 127.0.0.1
+2025-01-26 18:08:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:08:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:08:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:08:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:09:02	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:79	Client connected: 127.0.0.1
+2025-01-26 18:09:18	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:89	Message received from client 127.0.0.1: askdljaasfl
+dkaflk;askdljaasflalskfjlakj
+aks;jd;lkasd
+ksajf;jaswqe
+askfjasdqw
+
+2025-01-26 18:10:45	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:89	Message received from client 127.0.0.1: askdljaasfl
+dkaflk;askdljaasflalskfjlakj
+aks;jd;lkasd
+ksajf;jaswqe
+askfjasdqw
+
+2025-01-26 18:14:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:14:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:14:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:14:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:17:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:17:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:17:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:17:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:18:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:18:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:18:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:18:01	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:18:05	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:79	Client connected: 127.0.0.1
+2025-01-26 18:18:14	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:89	Message received from client 127.0.0.1: sadasdasdaweq
+asdkasldjqw
+askjdajsdq
+alksjdlkajwq
+2025-01-26 18:19:05	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:156	Error saving DOCX	{"error": "unioffice license required"}
+2025-01-26 18:19:35	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:86	Error reading message from client 127.0.0.1	{"error": "websocket: close 1000 (normal)"}
+2025-01-26 18:19:35	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:97	Client disconnected: 127.0.0.1
+2025-01-26 18:19:35	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:105	Failed to send ping	{"error": "websocket: close sent"}
+2025-01-26 18:20:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:20:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:20:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:20:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:20:06	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:77	Client connected: 127.0.0.1
+2025-01-26 18:20:09	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Message received from client 127.0.0.1: sadasdasdaweq
+asdkasldjqw
+askjdajsdqsada
+alksjdlkajwq
+2025-01-26 18:28:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:28:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:28:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:28:10	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:28:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:73	Client connected: 127.0.0.1
+2025-01-26 18:28:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:58	Client disconnected: 127.0.0.1
+2025-01-26 18:28:20	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:80	Error reading message from client 127.0.0.1	{"error": "read tcp 127.0.0.1:8080->127.0.0.1:47988: use of closed network connection"}
+2025-01-26 18:28:20	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:98	Client disconnected: 127.0.0.1
+2025-01-26 18:28:21	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:73	Client connected: 127.0.0.1
+2025-01-26 18:28:21	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:58	Client disconnected: 127.0.0.1
+2025-01-26 18:28:21	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:80	Error reading message from client 127.0.0.1	{"error": "read tcp 127.0.0.1:8080->127.0.0.1:48004: use of closed network connection"}
+2025-01-26 18:28:21	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:98	Client disconnected: 127.0.0.1
+2025-01-26 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:28:47	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:28:49	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:73	Client connected: 127.0.0.1
+2025-01-26 18:28:51	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:83	Message received from client 127.0.0.1: sadasdasdaweq
+asdkasldjqw
+askjdajsdqsada
+alksjdlkajwq
+2025-01-26 18:29:49	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:112	Failed to save docx to memory	{"error": "unioffice license required"}
+2025-01-26 18:30:49	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:112	Failed to save docx to memory	{"error": "unioffice license required"}
+2025-01-26 18:34:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-26 18:34:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-26 18:34:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-26 18:34:11	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-26 18:34:15	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-01-26 18:34:17	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:79	Message received from client 127.0.0.1: sadasdasdaweq
+asdkasldjqw
+askjdajsdqsada
+alksjdlkajwq

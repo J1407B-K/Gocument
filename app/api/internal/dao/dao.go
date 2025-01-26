@@ -111,6 +111,16 @@ func SelectMetaFile(filename string) (*model.File, error) {
 	return &file, nil
 }
 
+func SelectMetaFileByUsername(username string) ([]model.File, error) {
+	var files []model.File
+	err := global.MysqlDB.Where("username = ?", username).Find(&files).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to query meta file", zap.Error(err))
+		return nil, err
+	}
+	return files, nil
+}
+
 func SelectFileAccess(filename string) ([]model.FileAccess, error) {
 	var fileAccesses []model.FileAccess
 	//查询所有符合的fileAccess
