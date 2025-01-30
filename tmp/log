@@ -528,3 +528,17 @@ alksjdlkajwq
 asdkasldjqw
 askjdajsdqsada
 alksjdlkajwq
+2025-01-27 14:21:41	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-27 14:21:41	[31mFATAL[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:23	failed to connect mysqldial tcp [::1]:3306: connect: connection refused
+2025-01-27 14:31:04	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-27 14:31:04	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-27 14:31:04	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-27 14:31:04	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-27 14:35:17	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-27 14:35:17	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-27 14:35:17	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-27 14:35:17	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success

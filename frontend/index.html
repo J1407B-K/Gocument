@@ -1,124 +1,375 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOCX Viewer from COS</title>
+    <title>Gocument 协作文档平台</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        #doc-content {
-            white-space: pre-wrap;
-            font-family: "Courier New", monospace;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            height: 300px;
-            overflow-y: auto;
-        }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 16px;
-        }
+        .avatar-preview { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
+        .document-card { transition: transform 0.2s; cursor: pointer; }
+        .document-card:hover { transform: translateY(-3px); }
+        #editor { height: 70vh; border: 1px solid #ddd; padding: 20px; }
+        .toast { position: fixed; bottom: 20px; right: 20px; min-width: 250px; }
     </style>
 </head>
 <body>
-<h1>View DOCX from COS</h1>
-<input type="text" id="object-key" placeholder="Enter Object Key (e.g., documents/kq/ForTest.docx)" />
-<input type="text" id="region" placeholder="Enter Region (e.g., ap-chongqing)" />
-<button id="load-docx">Load DOCX</button>
-<div id="doc-content">Document content will appear here...</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Gocument</a>
+        <div id="authSection">
+            <div id="unauth" class="d-flex gap-2">
+                <button class="btn btn-light" onclick="showAuthModal('login')">登录</button>
+                <button class="btn btn-outline-light" onclick="showAuthModal('register')">注册</button>
+            </div>
+            <div id="authed" class="d-flex align-items-center gap-3" style="display:none!important">
+                <img id="headerAvatar" class="rounded-circle" style="width:40px;height:40px">
+                <span class="text-white" id="headerUsername"></span>
+                <button class="btn btn-light btn-sm" onclick="logout()">退出</button>
+            </div>
+        </div>
+    </div>
+</nav>
 
-<script src="https://cdn.jsdelivr.net/npm/cos-js-sdk-v5"></script>
+<div class="container mt-4">
+    <!-- 文档列表 -->
+    <div id="mainPage">
+        <div class="d-flex justify-content-between mb-4">
+            <h3>我的文档</h3>
+            <div>
+                <button class="btn btn-primary" onclick="showUploadModal()">新建文档</button>
+                <button class="btn btn-secondary" onclick="loadDocuments()">刷新列表</button>
+            </div>
+        </div>
+        <div class="row g-4" id="documentList"></div>
+    </div>
+
+    <!-- 文档编辑器 -->
+    <div id="editorPage" style="display:none">
+        <div class="d-flex justify-content-between mb-3">
+            <h3 id="docTitle"></h3>
+            <div>
+                <button class="btn btn-success" onclick="saveDocument()">保存</button>
+                <button class="btn btn-secondary" onclick="exitEditor()">返回</button>
+            </div>
+        </div>
+        <div id="editor" contenteditable="true"></div>
+    </div>
+</div>
+
+<!-- 认证模态框 -->
+<div class="modal fade" id="authModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="authForm" onsubmit="return false;">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="authUsername" placeholder="用户名" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" id="authPassword" placeholder="密码" required>
+                    </div>
+                    <button class="btn btn-primary w-100" onclick="handleAuth()"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 上传模态框 -->
+<div class="modal fade" id="uploadModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">上传新文档</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="file" id="docFile" class="form-control mb-3" accept=".docx">
+                <select id="docVisibility" class="form-select">
+                    <option value="public">公开</option>
+                    <option value="private">私有</option>
+                    <option value="restricted">受限</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="uploadDocument()">上传</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 用户信息模态框 -->
+<div class="modal fade" id="userModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">用户信息</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <img id="userAvatar" class="avatar-preview mb-2">
+                    <input type="file" id="avatarFile" accept=".jpg" class="form-control">
+                    <button class="btn btn-sm btn-secondary mt-2" onclick="updateAvatar()">更新头像</button>
+                </div>
+                <div id="userInfo"></div>
+                <h6 class="mt-3">我的文档</h6>
+                <div id="userDocuments"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 通知组件 -->
+<div id="toast" class="toast" style="display:none">
+    <div class="toast-body"></div>
+</div>
+
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Initialize COS SDK with your credentials
-    const cos = new COS({
-        SecretId: 'AKIDra9XxGPeonZYLyb5i9NQGvMabO0RfgWQ',
-        SecretKey: 'rEST0vfEajfNwHRN8iBany31nLgnhT3Q',
-    });
+    let currentDocument = null;
+    let currentUser = null;
+    const apiBase = 'http://your-api-domain.com'; // 替换为实际API地址
 
-    // Event listener for "Load DOCX" button
-    document.getElementById('load-docx').addEventListener('click', function() {
-        const objectKey = document.getElementById('object-key').value.trim(); // Object path (e.g., documents/kq/ForTest.docx)
-        const region = document.getElementById('region').value.trim(); // Region (e.g., ap-chongqing)
-
-        if (!objectKey || !region) {
-            alert("Please enter both Object Key and Region.");
-            return;
+    // 初始化
+    function init() {
+        const token = localStorage.getItem('token');
+        if (token) {
+            currentUser = JSON.parse(localStorage.getItem('userInfo'));
+            updateAuthUI(true);
+            loadDocuments();
+            loadUserInfo();
         }
-
-        // Bucket name (lanshan-1338048877) and region (ap-chongqing)
-        const bucketName = 'lanshan-1338048877'; // Your Bucket Name
-
-        // Get the DOCX file from COS
-        cos.getObject({
-            Bucket: bucketName, // Bucket with AppId
-            Region: region, // Region
-            Key: objectKey, // Object key (file path)
-        }, function(err, data) {
-            if (err) {
-                console.error("Error fetching document from COS:", err);
-                alert("Failed to fetch the document.");
-                return;
-            }
-
-            // Handle the DOCX file and extract its content
-            const blob = data.Body;
-
-            // Extract text from DOCX file using JSZip and FileReader
-            extractDocxText(blob).then((textContent) => {
-                document.getElementById('doc-content').innerText = textContent;
-            }).catch((error) => {
-                console.error("Error parsing DOCX file", error);
-                alert("Failed to parse DOCX file.");
-            });
-        });
-    });
-
-    // Function to extract text from DOCX file
-    function extractDocxText(blob) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const arrayBuffer = event.target.result;
-                const zip = new JSZip();
-
-                // Load DOCX contents using JSZip
-                zip.loadAsync(arrayBuffer).then(function(contents) {
-                    // Extract document XML content from DOCX
-                    const documentXml = contents.files['word/document.xml']?.async('text');
-                    if (!documentXml) {
-                        reject(new Error('Document XML not found'));
-                        return;
-                    }
-
-                    documentXml.then((xml) => {
-                        // Parse the XML to extract text
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(xml, 'application/xml');
-                        const paragraphs = doc.querySelectorAll('w\\:p, p');
-                        let textContent = '';
-                        paragraphs.forEach(paragraph => {
-                            const runs = paragraph.querySelectorAll('w\\:r, r');
-                            runs.forEach(run => {
-                                const text = run.querySelector('w\\:t, t');
-                                if (text) {
-                                    textContent += text.textContent;
-                                }
-                            });
-                            textContent += '\n'; // Newline after each paragraph
-                        });
-                        resolve(textContent);
-                    }).catch(reject);
-                }).catch(reject);
-            };
-            reader.onerror = reject;
-            reader.readAsArrayBuffer(blob);
-        });
     }
+
+    // 更新认证状态UI
+    function updateAuthUI(isAuthed) {
+        document.getElementById('unauth').style.display = isAuthed ? 'none' : 'flex';
+        document.getElementById('authed').style.display = isAuthed ? 'flex' : 'none';
+        if (isAuthed) {
+            document.getElementById('headerUsername').textContent = currentUser.username;
+            document.getElementById('headerAvatar').src = `${apiBase}/get/avatar?username=${currentUser.username}`;
+        }
+    }
+
+    // 显示认证模态框
+    function showAuthModal(type) {
+        const modal = new bootstrap.Modal('#authModal');
+        const title = type === 'login' ? '用户登录' : '用户注册';
+        document.querySelector('#authModal .modal-title').textContent = title;
+        document.querySelector('#authModal button').textContent = title;
+        document.querySelector('#authModal button').onclick = () => handleAuth(type);
+        modal.show();
+    }
+
+    // 处理认证
+    async function handleAuth(type) {
+        const username = document.getElementById('authUsername').value;
+        const password = document.getElementById('authPassword').value;
+
+        try {
+            const res = await fetch(`${apiBase}/${type}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            const data = await res.json();
+            if (data.code === 0) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('userInfo', JSON.stringify({ username }));
+                currentUser = { username };
+                updateAuthUI(true);
+                loadDocuments();
+                new bootstrap.Modal('#authModal').hide();
+                showToast(type === 'login' ? '登录成功' : '注册成功');
+            } else {
+                showToast(data.msg, 'danger');
+            }
+        } catch (error) {
+            showToast('请求失败，请检查网络', 'danger');
+        }
+    }
+
+    // 加载文档列表
+    async function loadDocuments() {
+        try {
+            const res = await fetch(`${apiBase}/select?username=${currentUser.username}`, {
+                headers: getAuthHeader()
+            });
+            const data = await res.json();
+            renderDocuments(data.MetaFiles);
+        } catch (error) {
+            showToast('文档加载失败', 'danger');
+        }
+    }
+
+    // 渲染文档列表
+    function renderDocuments(docs) {
+        const html = docs.map(doc => `
+                <div class="col-md-4">
+                    <div class="document-card card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${doc.filename}</h5>
+                            <div class="d-flex gap-2 mt-2">
+                                <button class="btn btn-sm btn-primary"
+                                    onclick="openDocument('${doc.filename}')">编辑</button>
+                                <button class="btn btn-sm btn-danger"
+                                    onclick="deleteDocument('${doc.filename}')">删除</button>
+                                <button class="btn btn-sm btn-secondary"
+                                    onclick="showDocumentInfo('${doc.filename}')">详情</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        document.getElementById('documentList').innerHTML = html;
+    }
+
+    // 打开文档
+    async function openDocument(filename) {
+        try {
+            const res = await fetch(`${apiBase}/get/document?filename=${filename}`, {
+                headers: getAuthHeader()
+            });
+            const data = await res.json();
+
+            currentDocument = data;
+            document.getElementById('mainPage').style.display = 'none';
+            document.getElementById('editorPage').style.display = 'block';
+            document.getElementById('docTitle').textContent = filename;
+
+            // 加载文档内容
+            const contentRes = await fetch(data.URL);
+            document.getElementById('editor').innerHTML = await contentRes.text();
+        } catch (error) {
+            showToast('文档打开失败', 'danger');
+        }
+    }
+
+    // 上传文档
+    async function uploadDocument() {
+        const fileInput = document.getElementById('docFile');
+        if (!fileInput.files[0]) return showToast('请选择文件', 'warning');
+
+        const formData = new FormData();
+        formData.append('document', fileInput.files[0]);
+        formData.append('visibility', document.getElementById('docVisibility').value);
+
+        try {
+            const res = await fetch(`${apiBase}/upload/document`, {
+                method: 'POST',
+                headers: getAuthHeader(),
+                body: formData
+            });
+
+            const data = await res.json();
+            if (data.code === 0) {
+                showToast('上传成功');
+                new bootstrap.Modal('#uploadModal').hide();
+                loadDocuments();
+            } else {
+                showToast(data.msg, 'danger');
+            }
+        } catch (error) {
+            showToast('上传失败', 'danger');
+        }
+    }
+
+    // 删除文档
+    async function deleteDocument(filename) {
+        if (!confirm(`确定删除 ${filename} 吗？`)) return;
+
+        try {
+            const res = await fetch(`${apiBase}/delete/document?filename=${filename}`, {
+                method: 'DELETE',
+                headers: getAuthHeader()
+            });
+
+            const data = await res.json();
+            if (data.code === 0) {
+                showToast('删除成功');
+                loadDocuments();
+            } else {
+                showToast(data.msg, 'danger');
+            }
+        } catch (error) {
+            showToast('删除失败', 'danger');
+        }
+    }
+
+    // 保存文档
+    async function saveDocument() {
+        try {
+            const formData = new FormData();
+            formData.append('document', new Blob([document.getElementById('editor').innerHTML]), currentDocument.filename);
+
+            const res = await fetch(`${apiBase}/update/document?filename=${currentDocument.filename}`, {
+                method: 'PUT',
+                headers: getAuthHeader(),
+                body: formData
+            });
+
+            const data = await res.json();
+            if (data.code === 0) {
+                showToast('保存成功');
+            } else {
+                showToast(data.msg, 'danger');
+            }
+        } catch (error) {
+            showToast('保存失败', 'danger');
+        }
+    }
+
+    // 用户信息处理
+    async function loadUserInfo() {
+        try {
+            const res = await fetch(`${apiBase}/select?username=${currentUser.username}`, {
+                headers: getAuthHeader()
+            });
+            const data = await res.json();
+            renderUserInfo(data.User, data.MetaFiles);
+        } catch (error) {
+            showToast('用户信息加载失败', 'danger');
+        }
+    }
+
+    function renderUserInfo(user, docs) {
+        document.getElementById('userAvatar').src = `${apiBase}/get/avatar?username=${user.username}`;
+        document.getElementById('userInfo').innerHTML = `
+                <p>用户名: ${user.username}</p>
+                <p>注册时间: ${new Date(user.created_at).toLocaleDateString()}</p>
+            `;
+        document.getElementById('userDocuments').innerHTML = docs.map(doc =>
+            `<div class="text-truncate">${doc.filename}</div>`
+        ).join('');
+    }
+
+    // 工具方法
+    function getAuthHeader() {
+        const token = localStorage.getItem('token');
+        return { 'Authorization': `Bearer ${token}` };
+    }
+
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.style.display = 'block';
+        toast.className = `toast alert-${type}`;
+        toast.querySelector('.toast-body').textContent = message;
+        setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    function logout() {
+        localStorage.clear();
+        location.reload();
+    }
+
+    // 初始化执行
+    init();
 </script>
 </body>
 </html>

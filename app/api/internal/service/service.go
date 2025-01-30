@@ -14,7 +14,6 @@ import (
 	"mime/multipart"
 	"net/http"
 	"path/filepath"
-	"time"
 )
 
 func Register(c *gin.Context) {
@@ -71,7 +70,7 @@ func Register(c *gin.Context) {
 
 	if exist {
 		//缓存中没有，Mysql中有
-		err := SetRedisKey(redisName, hashedPassword)
+		err := dao.SetRedisKey(redisName, hashedPassword)
 		if err != nil {
 			global.Logger.Error("redis set failed" + err.Error())
 		}
@@ -95,7 +94,7 @@ func Register(c *gin.Context) {
 		}
 
 		//保存到redis
-		err := SetRedisKey(redisName, hashedPassword)
+		err := dao.SetRedisKey(redisName, hashedPassword)
 		if err != nil {
 			global.Logger.Error("redis set failed" + err.Error())
 		}
@@ -208,7 +207,7 @@ func Login(c *gin.Context) {
 			return
 		}
 
-		err = SetRedisKey(redisKey, userinMysql.Password)
+		err = dao.SetRedisKey(redisKey, userinMysql.Password)
 		if err != nil {
 			global.Logger.Error("redis set failed" + err.Error())
 		}
@@ -722,15 +721,6 @@ func HashedLock(p string) (string, bool) {
 		return "", false
 	}
 	return string(hashedP), true
-}
-
-func SetRedisKey(key string, value string) error {
-	err := global.RedisDB.Set(global.Ctx, key, value, time.Hour*24).Err()
-	if err != nil {
-		global.Logger.Error("redis set failed" + err.Error())
-		return err
-	}
-	return nil
 }
 
 // 上传到腾讯云 COS

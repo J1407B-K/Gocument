@@ -6,7 +6,17 @@ import (
 	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
+	"time"
 )
+
+func SetRedisKey(key string, value string) error {
+	err := global.RedisDB.Set(global.Ctx, key, value, time.Hour*24).Err()
+	if err != nil {
+		global.Logger.Error("redis set failed" + err.Error())
+		return err
+	}
+	return nil
+}
 
 func CreateFileAccess(username, filename string) bool {
 	var fileAccess model.FileAccess
