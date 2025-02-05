@@ -243,7 +243,7 @@ func UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	//验证文件类型(csdn学的嘿嘿)
+	//验证文件类型
 	ext := filepath.Ext(file.Filename)
 	if ext != ".jpg" {
 		global.Logger.Debug("avatar verify failed")
@@ -276,6 +276,11 @@ func UploadAvatar(c *gin.Context) {
 			"msg":  "save file failed" + err.Error(),
 		})
 		return
+	}
+
+	err = dao.SetRedisKey(file.Filename, cosPath)
+	if err != nil {
+		global.Logger.Error("redis set failed" + err.Error())
 	}
 
 	err = uploadToCOS(global.CosClient, file, cosPath)
@@ -344,6 +349,11 @@ func UploadDocument(c *gin.Context) {
 		return
 	}
 
+	err = dao.SetRedisKey(file.Filename, cosPath)
+	if err != nil {
+		global.Logger.Error("redis set failed" + err.Error())
+	}
+
 	// 上传到 COS
 	err = uploadToCOS(global.CosClient, file, cosPath)
 	if err != nil {
@@ -383,7 +393,11 @@ func DeleteDocument(c *gin.Context) {
 		return
 	}
 
-	//之后加redis
+	err := dao.DelRedisKey(filename)
+	if err != nil {
+		global.Logger.Error("redis delete failed" + err.Error())
+	}
+
 	MetaFile, err := dao.SelectMetaFile(filename)
 	if err != nil {
 		global.Logger.Error("file not found in database: " + err.Error())
@@ -435,6 +449,7 @@ func DeleteDocument(c *gin.Context) {
 
 // 更新文档(先删除，后更新)
 func UpdateDocument(c *gin.Context) {
+	var Metafile *model.File
 	//获取文件名
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
@@ -492,15 +507,26 @@ func UpdateDocument(c *gin.Context) {
 		return
 	}
 
-	//找元数据
-	Metafile, err := dao.SelectMetaFile(filename)
+	//redis
+	url, err := dao.GetRedisKey(filename)
 	if err != nil {
-		global.Logger.Error("file not found in database: " + err.Error())
-		c.JSON(http.StatusNotFound, gin.H{
-			"code": consts.FileNotFind,
-			"msg":  "file not found",
-		})
-		return
+		global.Logger.Error("redis get file failed: " + err.Error())
+	}
+	if url == "" {
+		//找元数据(mysql)
+		Metafile, err = dao.SelectMetaFile(filename)
+		if err != nil {
+			global.Logger.Error("file not found in database: " + err.Error())
+			c.JSON(http.StatusNotFound, gin.H{
+				"code": consts.FileNotFind,
+				"msg":  "file not found",
+			})
+			return
+		}
+	} else {
+		Metafile.Username = username.(string)
+		Metafile.FileURL = url
+		Metafile.FileName = filename
 	}
 
 	//遍历查询是否有权限修改
@@ -539,6 +565,16 @@ func UpdateDocument(c *gin.Context) {
 					"msg":  "upload to COS failed: " + err.Error(),
 				})
 				return
+			}
+
+			err = dao.DelRedisKey(filename)
+			if err != nil {
+				global.Logger.Error("delete from redis failed: " + err.Error())
+			}
+
+			err = dao.SetRedisKey(newfilename, cosPath)
+			if err != nil {
+				global.Logger.Error("set from redis failed: " + err.Error())
 			}
 
 			//新文件名保存
@@ -580,6 +616,7 @@ func UpdateDocument(c *gin.Context) {
 }
 
 func GetDocument(c *gin.Context) {
+	var metaFile *model.File
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
 		global.Logger.Error("filename is required")
@@ -620,14 +657,24 @@ func GetDocument(c *gin.Context) {
 		return
 	}
 
-	metaFile, err := dao.SelectMetaFile(filename)
+	url, err := dao.GetRedisKey(filename)
 	if err != nil {
-		global.Logger.Error("metafile not found in database: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.FileNotFind,
-			"msg":  "metafile not found in database",
-		})
-		return
+		global.Logger.Error("get redis failed: " + err.Error())
+	}
+	if url == "" {
+		metaFile, err = dao.SelectMetaFile(filename)
+		if err != nil {
+			global.Logger.Error("metafile not found in database: " + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.FileNotFind,
+				"msg":  "metafile not found in database",
+			})
+			return
+		}
+	} else {
+		metaFile.Username = usernameNow.(string)
+		metaFile.FileURL = url
+		metaFile.FileName = filename
 	}
 
 	//直接返回COS连接
@@ -640,6 +687,7 @@ func GetDocument(c *gin.Context) {
 }
 
 func GetAvatar(c *gin.Context) {
+	var metaFile *model.File
 	username := c.DefaultQuery("username", "")
 	if username == "" {
 		global.Logger.Error("username is required")
@@ -652,14 +700,24 @@ func GetAvatar(c *gin.Context) {
 
 	filename := username + ".jpg"
 
-	metaFile, err := dao.SelectMetaFile(filename)
+	url, err := dao.GetRedisKey(filename)
 	if err != nil {
-		global.Logger.Error("metafile not found in database: " + err.Error())
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"code": consts.FileNotFind,
-			"msg":  "metafile not found in database",
-		})
-		return
+		global.Logger.Error("redis get file failed: " + err.Error())
+	}
+	if url == "" {
+		metaFile, err = dao.SelectMetaFile(filename)
+		if err != nil {
+			global.Logger.Error("metafile not found in database: " + err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"code": consts.FileNotFind,
+				"msg":  "metafile not found in database",
+			})
+			return
+		}
+	} else {
+		metaFile.Username = username
+		metaFile.FileURL = url
+		metaFile.FileName = filename
 	}
 
 	//直接返回COS连接
