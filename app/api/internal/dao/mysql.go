@@ -101,10 +101,25 @@ func DeleteMetafile(filename string) error {
 	return nil
 }
 
+func DeleteFileAccess(filename string) error {
+	var fileAccess model.FileAccess
+	err := global.MysqlDB.Where("file_name = ?", filename).First(&fileAccess).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to query meta file", zap.Error(err))
+		return err
+	}
+	err = global.MysqlDB.Delete(&fileAccess).Error
+	if err != nil {
+		global.Logger.Error("Mysql failed to delete meta file", zap.Error(err))
+		return err
+	}
+	return nil
+}
+
 // 元数据只改变URL
 func UpdateMetaFileURL(MetaFile *model.File, NewURL string) error {
 	MetaFile.FileURL = NewURL
-	result := global.MysqlDB.Save(MetaFile)
+	result := global.MysqlDB.Model(MetaFile).Where("file_name = ?", MetaFile.FileName).Update("file_url", NewURL)
 	if result.Error != nil {
 		global.Logger.Error("Mysql failed to update meta file", zap.Error(result.Error))
 		return result.Error
@@ -114,7 +129,7 @@ func UpdateMetaFileURL(MetaFile *model.File, NewURL string) error {
 
 // 元数据只改变文件名
 func UpdateMetaFileName(MetaFile *model.File, NewFileName string) error {
-	result := global.MysqlDB.Model(MetaFile).Update("file_name", NewFileName)
+	result := global.MysqlDB.Model(MetaFile).Where("file_name = ?", MetaFile.FileName).Update("file_name", NewFileName)
 	if result.Error != nil {
 		global.Logger.Error("Mysql failed to update meta file", zap.Error(result.Error))
 		return result.Error

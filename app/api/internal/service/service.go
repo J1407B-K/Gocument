@@ -441,6 +441,17 @@ func DeleteDocument(c *gin.Context) {
 		return
 	}
 
+	//删除file_access
+	err = dao.DeleteFileAccess(filename)
+	if err != nil {
+		global.Logger.Error("delete file access failed: " + err.Error())
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"code": consts.DeleteFileWrong,
+			"msg":  "delete file access failed: " + err.Error(),
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 0,
 		"msg":  "file deleted successfully",
@@ -449,7 +460,7 @@ func DeleteDocument(c *gin.Context) {
 
 // 更新文档(先删除，后更新)
 func UpdateDocument(c *gin.Context) {
-	var Metafile *model.File
+	var Metafile = &model.File{}
 	//获取文件名
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
