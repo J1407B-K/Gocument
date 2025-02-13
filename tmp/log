@@ -629,3 +629,20 @@ alksjdlkajwq
 2025-02-14 01:07:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
 2025-02-14 01:07:57	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
 2025-02-14 01:08:06	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:611	update file successfully
+2025-02-14 01:10:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-02-14 01:10:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-02-14 01:10:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-02-14 01:10:23	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-02-14 01:11:07	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-02-14 01:15:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-02-14 01:15:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-02-14 01:15:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-02-14 01:15:43	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-02-14 01:15:46	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:46	user is exist
+2025-02-14 01:19:31	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/service/service.go:611	update file successfully
+2025-02-14 01:22:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-02-14 01:22:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-02-14 01:22:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-02-14 01:22:54	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-02-14 01:24:19	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-02-14 01:24:24	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:79	Message received from client 127.0.0.1: aksdaldsaldadsja

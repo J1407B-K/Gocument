@@ -627,7 +627,7 @@ func UpdateDocument(c *gin.Context) {
 }
 
 func GetDocument(c *gin.Context) {
-	var metaFile *model.File
+	var metaFile *model.File = &model.File{}
 	filename := c.DefaultQuery("filename", "")
 	if filename == "" {
 		global.Logger.Error("filename is required")
