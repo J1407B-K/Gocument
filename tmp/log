@@ -542,3 +542,14 @@ alksjdlkajwq
 2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
 2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
 2025-01-27 14:42:03	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-02-11 17:15:51	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-02-11 17:15:51	[31mFATAL[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:23	failed to connect mysqldial tcp [::1]:3306: connect: connection refused
+2025-02-11 17:16:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Logger.go:50	Initialize logger success
+2025-02-11 17:16:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:28	Initialize mysql success
+2025-02-11 17:16:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/Database.go:47	Initialize redis success
+2025-02-11 17:16:36	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/initialize/COS.go:22	Initialize cos success
+2025-02-11 17:17:02	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-02-11 17:17:02	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:69	Client connected: 127.0.0.1
+2025-02-11 17:17:05	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:76	Error reading message from client 127.0.0.1	{"error": "websocket: close 1000 (normal)"}
+2025-02-11 17:17:05	[34mINFO[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:87	Client disconnected: 127.0.0.1
+2025-02-11 17:17:32	[31mERROR[0m	/home/kq/GolandProjects/Gocument/app/api/internal/conn/WebSocket.go:95	Failed to send ping	{"error": "websocket: close sent"}
